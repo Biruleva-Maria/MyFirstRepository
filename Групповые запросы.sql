@@ -31,3 +31,7 @@ SELECT st.n_group, AVG(st.score) AS avg, MAX(st.score) AS max, MIN(st.score) AS 
 FROM students st
 GROUP BY st.n_group
 #9
+SELECT *
+FROM students st
+WHERE st.score= (SELECT MAX(st.score)
+				 FROM students st)
