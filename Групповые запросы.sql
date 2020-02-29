@@ -2,7 +2,7 @@
 SELECT st.n_group, COUNT(st.n_group) 
 FROM students st 
 GROUP BY st.n_group 
-#2 
+#2 //
 SELECT st.n_group, MAX(st.score) 
 FROM students st 
 GROUP BY st.n_group 
