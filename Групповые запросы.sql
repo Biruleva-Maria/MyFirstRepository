@@ -6,7 +6,7 @@ GROUP BY st.n_group
 SELECT st.n_group, MAX(st.score) 
 FROM students st 
 GROUP BY st.n_group 
-#3 
+#3 =
 SELECT st.name, COUNT(st.name) 
 FROM students st 
 GROUP BY st.name 
