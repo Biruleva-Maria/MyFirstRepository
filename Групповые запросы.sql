@@ -19,6 +19,7 @@ FROM students st
 SELECT st.n_group, MAX(st.score)
 FROM students st
 GROUP BY st.n_group
+LIMIT 1
 #7
 SELECT st.n_group, AVG(st.score) AS avg
 FROM students st
