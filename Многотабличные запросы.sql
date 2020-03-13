@@ -26,7 +26,7 @@ INNER JOIN students_hobbies sh ON st.id=sh.student_id
 INNER JOIN hobbies h ON h.id=sh.hobby_id 
 WHERE sh.date_finish IS NOT NULL
 #5
-SELECT st.name, st.surname, st.birth_date, st.id, extract(years from age(st.birth_date)), 
+SELECT st.name, st.surname, st.birth_date, st.id, extract(years from age(st.birth_date))
 FROM students st
 INNER JOIN students_hobbies sh ON st.id=sh.student_id 
 INNER JOIN hobbies h ON h.id=sh.hobby_id  
@@ -34,13 +34,13 @@ WHERE sh.date_finish is null
 GROUP BY st.name, st.surname, st.birth_date, st.id
 HAVING extract(years from age(st.birth_date))=20
 #6
-SELECT st.n_group,
+SELECT DISTINCT(st.n_group),AVG(st.score)
 FROM students st
 INNER JOIN students_hobbies sh ON st.id=sh.student_id 
-INNER JOIN hobbies h ON h.id=sh.hobby_id  
-WHERE st.score= (SELECT AVG(st.score) FROM students st) AND sh.date_finish is null
+WHERE sh.date_finish is null
+GROUP BY st.n_group
 #7
-SELECT h.name, h.risk, st.id, st.name, st.surname, sh.date_start, age(sh.date_start)
+SELECT h.name, h.risk, st.id, st.name, st.surname, sh.date_start,extract(month from age(sh.date_start))+ extract (year from age (sh.date_start)*12)
 FROM students st
 INNER JOIN students_hobbies sh ON st.id=sh.student_id 
 INNER JOIN hobbies h ON h.id=sh.hobby_id  
@@ -48,3 +48,4 @@ WHERE sh.date_finish is null
 GROUP BY h.name, h.risk, st.id, st.name, st.surname, sh.date_start, age(sh.date_start)
 ORDER BY MAX(age(now(),sh.date_start)) DESC
 LIMIT 1
+#8
