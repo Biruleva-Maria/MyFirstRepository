@@ -1,0 +1,50 @@
+#1
+SELECT st.name, st.surname, h.name as hobby
+From students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id 
+GROUP BY st.name, st.surname, h.name
+#2
+SELECT st.name, st.surname, st.n_group, st.phone, st.city, st.score, st.birth_date, h.name as hobby, MAX(age(now(),sh.date_start)), sh.date_finish
+From students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id 
+GROUP BY st.name, st.surname, st.n_group, st.phone, st.city, st.score, st.birth_date, h.name,sh.date_finish
+ORDER BY MAX(age(now(),sh.date_start)) DESC
+LIMIT 1
+#3
+SELECT st.name, st.surname, st.birth_date, st.id, SUM(h.risk)
+FROM students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id  
+INNER JOIN hobbies h ON h.id=sh.hobby_id
+WHERE st.score>(SELECT AVG(st.score) FROM students st) AND sh.date_finish is not null    
+GROUP BY st.name, st.surname, st.birth_date, st.id
+#4
+SELECT st.name, st.surname, st.birth_date, h.name as hobby, h.risk, extract(month from age(sh.date_finish, sh.date_start))+ extract (year from age (sh.date_finish, sh.date_start)*12)
+From students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id 
+WHERE sh.date_finish IS NOT NULL
+#5
+SELECT st.name, st.surname, st.birth_date, st.id, extract(years from age(st.birth_date)), 
+FROM students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id  
+WHERE sh.date_finish is null
+GROUP BY st.name, st.surname, st.birth_date, st.id
+HAVING extract(years from age(st.birth_date))=20
+#6
+SELECT st.n_group,
+FROM students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id  
+WHERE st.score= (SELECT AVG(st.score) FROM students st) AND sh.date_finish is null
+#7
+SELECT h.name, h.risk, st.id, st.name, st.surname, sh.date_start, age(sh.date_start)
+FROM students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id  
+WHERE sh.date_finish is null
+GROUP BY h.name, h.risk, st.id, st.name, st.surname, sh.date_start, age(sh.date_start)
+ORDER BY MAX(age(now(),sh.date_start)) DESC
+LIMIT 1
