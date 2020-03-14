@@ -35,3 +35,11 @@ SELECT *
 FROM students st
 WHERE st.score= (SELECT MAX(st.score)
 				 FROM students st)
+#10
+Select st.*
+From students st
+INNER Join(
+    Select st.n_group, max(st.score)
+    From students st
+    Group BY st.n_group) as t
+	ON st.n_group=t.n_group AND st.score=t.max(st.score)
