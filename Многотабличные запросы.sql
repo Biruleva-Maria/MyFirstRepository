@@ -49,3 +49,31 @@ GROUP BY h.name, h.risk, st.id, st.name, st.surname, sh.date_start, age(sh.date_
 ORDER BY MAX(age(now(),sh.date_start)) DESC
 LIMIT 1
 #8
+SELECT DISTINCT(h.name), MAX(s.score)
+FROM hobbies h
+INNER JOIN students_hobbies sh ON h.id=sh.hobby_id
+INNER JOIN students s ON s.id=sh.student_id 
+WHERE s.score=(SELECT MAX(s.score)
+			  FROM students s)
+GROUP BY h.name, s.score
+#9
+SELECT h.name
+FROM hobbies h
+INNER JOIN students_hobbies sh ON h.id=sh.student_id 
+INNER JOIN students s ON s.id=sh.hobby_id 
+WHERE s.score BETWEEN 2.49 AND 3.5 AND sh.date_finish IS NULL AND CAST (s.n_group AS varchar) like '2___' 
+GROUP BY h.name, s.score
+#10
+SELECT *
+FROM (Select substr(st.n_group::varchar, 1,1) as course, count(*)
+From students st
+Group by substr(st.n_group::varchar, 1,1)) as st_all
+INNER JOIN (
+Select substr(st.n_group::varchar, 1,1) as course, count(*)
+From students st
+INNER JOIN students_hobbies sh
+on st.id=sh.student_id
+WHERE sh.date_finish is null
+Group by substr(st.n_group::varchar, 1,1)
+Having count (*)>1) as st_wh
+ON st_all.course = st_wh.course
