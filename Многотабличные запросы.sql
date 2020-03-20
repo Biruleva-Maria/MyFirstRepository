@@ -77,3 +77,23 @@ WHERE sh.date_finish is null
 Group by substr(st.n_group::varchar, 1,1)
 Having count (*)>1) as st_wh
 ON st_all.course = st_wh.course
+#11
+SELECT *
+FROM (Select substr(st.n_group::varchar, 1,4) as NGROUP, count(*) as c_group
+From students st
+Group by substr(st.n_group::varchar, 1,4)) as st_all
+INNER JOIN (
+Select substr(st.n_group::varchar, 1,4) as NGROUP, count(*) as c_good
+From students st
+WHERE st.score>=4
+Group by substr(st.n_group::varchar, 1,4)
+Having count (*)>1) as st_gd
+ON st_all.NGROUP = st_gd.NGROUP
+WHERE st_all.NGROUP::integer/st_gd.NGROUP::integer>=0.6
+#12
+Select substr(st.n_group::varchar, 1,1) as course, substr(sh.date_finish::varchar, 1,10) as finish, count(*) as c_good
+From students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id  
+Group by substr(sh.date_finish::varchar, 1,10),substr(st.n_group::varchar, 1,1)
+Having count (*)>1
