@@ -170,3 +170,15 @@ FROM students st
 INNer JOIN students_hobbies sh ON st.id=sh.student_id
 group by st.id, sh.date_finish
 having extract(year from age(now(), sh.date_finish))=5;
+
+
+
+#25
+Select h.*
+from hobbies h
+INNER JOIN students_hobbies sh ON h.id=sh.hobby_id 
+INNER JOIN students st ON st.id=sh.student_id 
+WHERE sh.date_finish is null
+group by h.id, h.name
+order by count(st.name) desc
+limit 1
