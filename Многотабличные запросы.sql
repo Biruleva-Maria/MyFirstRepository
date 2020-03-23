@@ -97,3 +97,17 @@ INNER JOIN students_hobbies sh ON st.id=sh.student_id
 INNER JOIN hobbies h ON h.id=sh.hobby_id  
 Group by substr(sh.date_finish::varchar, 1,10),substr(st.n_group::varchar, 1,1)
 Having count (*)>1
+#13
+Select st.id, st.name, st.surname, st.birth_date, substr(st.n_group::varchar, 1,1) as course
+From students st
+FULL JOIN students_hobbies sh ON st.id=sh.student_id
+WHERE st.score >=4.5
+group by st.id, st.name, st.surname, st.birth_date, substr(st.n_group::varchar, 1,1)
+having count(sh.date_start)= count(sh.date_finish)
+#14
+CREATE OR REPLACE VIEW student_hobby AS
+SELECT st.* 
+FROM students st
+INNer JOIN students_hobbies sh ON st.id=sh.student_id
+group by st.id, sh.date_finish
+having extract(year from age(now(), sh.date_finish))=5;
