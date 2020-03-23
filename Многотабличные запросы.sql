@@ -163,3 +163,10 @@ FROM(Select *
 		Where sh.date_finish is null
 		Order by sh.date_start
 		Limit 10) as st_all
+#21
+CREATE OR REPLACE VIEW student_hobby AS
+SELECT st.* 
+FROM students st
+INNer JOIN students_hobbies sh ON st.id=sh.student_id
+group by st.id, sh.date_finish
+having extract(year from age(now(), sh.date_finish))=5;
