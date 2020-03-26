@@ -182,3 +182,34 @@ WHERE sh.date_finish is null
 group by h.id, h.name
 order by count(st.name) desc
 limit 1
+
+#27
+Select substr(st.name::varchar, 1,1) as alfavit, Max(st.score), avg(st.score), min(st.score)
+from students st
+where st.score>3.6
+group by alfavit
+order by alfavit
+#28
+select substr(st.n_group::varchar, 1,1) as course, st.surname, max(st.score), min(st.score), avg(st.score)
+from students st
+group by course, st.surname
+#29
+select substr(st.birth_date::varchar, 1,4) as year, count(h.name)
+from students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id 
+group by year
+#30
+Select substr(st.name::varchar, 1,1) as alfavit, Max(h.risk), min(h.risk)
+from students st
+INNER JOIN students_hobbies sh ON st.id=sh.student_id 
+INNER JOIN hobbies h ON h.id=sh.hobby_id 
+group by alfavit
+order by alfavit
+#31
+SELECT extract(month from st.birth_date), avg(st.score)
+FROM students st
+INNER JOIN students_hobbies sh ON st.id = sh.student_id
+INNER JOIN hobbies h ON h.id = sh.hobby_id
+WHERE h.name = 'Футбол'
+GROUP BY extract(month from st.birth_date)
