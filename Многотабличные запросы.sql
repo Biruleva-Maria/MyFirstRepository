@@ -213,3 +213,23 @@ INNER JOIN students_hobbies sh ON st.id = sh.student_id
 INNER JOIN hobbies h ON h.id = sh.hobby_id
 WHERE h.name = 'Футбол'
 GROUP BY extract(month from st.birth_date)
+#32
+select distinct(st.name), st.surname, st.n_group
+from students st
+full JOIN students_hobbies sh ON st.id = sh.student_id
+where sh.date_start is not null
+#33
+SELECT position('ов' IN st.surname)  
+from students st
+#34
+sELECT rpad(st.surname,10,'#') 
+from students st
+#35
+SELECT trim('#' FROM n_surname) 
+FROM (sELECT rpad(st.surname,10,'#') as n_surname
+		from students st)as all_surname
+#36
+select '2000-05-01'::date -'2000-04-01'::date
+
+
+
