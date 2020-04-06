@@ -170,9 +170,19 @@ FROM students st
 INNer JOIN students_hobbies sh ON st.id=sh.student_id
 group by st.id, sh.date_finish
 having extract(year from age(now(), sh.date_finish))=5;
+#22
+with c_hobby as(select substr(st.n_group::varchar,1,1) as course, sh.hobby_id, count(*) as c
+				from students st
+				inner join students_hobbies sh on st.id=sh.student_id
+				group by substr(st.n_group::varchar,1,1), sh.hobby_id), max_for_course as(select c_h.course, max(c) as max_c
+																							from c_hobby c_h
+																							group by c_h.course)
 
-
-
+select *
+from max_for_course m_f_c
+inner join c_hobby c_h on c_h.course = m_f_c.course and m_f_c.max_c= c_h.c
+#23
+#24
 #25
 Select h.*
 from hobbies h
