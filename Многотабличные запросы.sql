@@ -171,6 +171,8 @@ INNer JOIN students_hobbies sh ON st.id=sh.student_id
 group by st.id, sh.date_finish
 having extract(year from age(now(), sh.date_finish))=5;
 #22
+CREATE OR REPLACE VIEW student_hobby AS
+
 with c_hobby as(
 			select substr(st.n_group::varchar,1,1) as course, sh.hobby_id, count(*) as c
 			from students st
