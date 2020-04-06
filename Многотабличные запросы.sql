@@ -214,7 +214,7 @@ INNER JOIN hobbies h ON h.id = sh.hobby_id
 WHERE h.name = 'Футбол'
 GROUP BY extract(month from st.birth_date)
 #32
-select distinct(st.name), st.surname, st.n_group
+select distinct(st.name)|| ' ' || st.surname || ' ' || st.n_group as students
 from students st
 full JOIN students_hobbies sh ON st.id = sh.student_id
 where sh.date_start is not null
