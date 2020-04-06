@@ -225,7 +225,10 @@ WHERE sh.date_finish is null
 group by h.id, h.name
 order by count(st.name) desc
 limit 1
-
+#26
+CREATE OR REPLACE VIEW V2 AS
+SELECT st.id, st.surname, st.name, st.n_group 
+FROM students st
 #27
 Select substr(st.name::varchar, 1,1) as alfavit, Max(st.score), avg(st.score), min(st.score)
 from students st
