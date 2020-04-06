@@ -265,7 +265,9 @@ from students st
 full JOIN students_hobbies sh ON st.id = sh.student_id
 where sh.date_start is not null
 #33
-SELECT position('ов' IN st.surname)  
+SELECT st.surname,
+		case when position('ов' IN st.surname) = 0 then 'не найдено'
+				else position('ов' IN st.surname)::varchar end
 from students st
 #34
 sELECT rpad(st.surname,10,'#') 
