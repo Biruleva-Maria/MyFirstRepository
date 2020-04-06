@@ -202,6 +202,20 @@ select *
 from max_for_course m_f_c
 inner join c_hobby c_h on c_h.course = m_f_c.course and m_f_c.max_c= c_h.c
 #24
+CREATE OR REPLACE VIEW student_hobby AS
+with all_students as(
+			select substr(st.n_group::varchar,1,1) as course, count(distinct(st.name)) as all_course
+			from students st
+			group by substr(st.n_group::varchar,1,1)), 
+			good_students as(
+							select substr(st.n_group::varchar,1,1) as course, count(distinct(st.name)) as g_s
+							from students st
+							where st.score>4.5
+							group by substr(st.n_group::varchar,1,1))
+
+select *
+from all_students a_s
+full join good_students gs on a_s.course = gs.course
 #25
 Select h.*
 from hobbies h
