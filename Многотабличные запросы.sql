@@ -278,6 +278,24 @@ FROM (sELECT rpad(st.surname,10,'#') as n_surname
 		from students st)as all_surname
 #36
 select '2000-05-01'::date -'2000-04-01'::date
-
-
-
+#37
+SELECT EXTRACT(DOW FROM now ()) as goodday,
+		CASE WHEN (EXTRACT(DOW FROM now ())::integer) = 1 THEN (now()::date+5)
+		  WHEN (EXTRACT(DOW FROM now ())::integer) = 2 THEN (now()::date+4)
+		   WHEN (EXTRACT(DOW FROM now ())::integer) = 3 THEN (now()::date+3)
+		    WHEN (EXTRACT(DOW FROM now ())::integer) = 4 THEN (now()::date+2)
+			 WHEN (EXTRACT(DOW FROM now ())::integer) = 5 THEN (now()::date+1)
+			  WHEN (EXTRACT(DOW FROM now ())::integer) = 6 THEN (now()::date)
+			   WHEN (EXTRACT(DOW FROM now ())::integer) = 7 THEN (now()::date+6)
+		END 
+#38
+SELECT EXTRACT(CENTURY FROM now ()) as century, EXTRACT(WEEK FROM now ()) as week, EXTRACT(DOY FROM now ()) as day
+#39
+select st.name || ' ' || st.surname || ' ' || h.name || ' ' || case when sh.date_finish is null then 'занимается'
+																	when sh.date_finish is not null then 'закончил'
+																	end
+from students st
+inner join students_hobbies sh on sh.student_id=st.id
+inner join hobbies h on h.id=sh.hobby_id
+where sh.date_start is not null
+#40
