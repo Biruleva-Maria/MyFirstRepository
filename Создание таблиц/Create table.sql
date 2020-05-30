@@ -6,14 +6,9 @@ CREATE TABLE shop (
  city varchar(100) NOT NULL,
  street varchar(100) NOT NULL,
  house varchar(20) NOT NULL,
- date_start date(10) NOT NULL UNIQUE,
+ date_start date NOT NULL UNIQUE,
  date_finish varchar(10)
 );
-
-/*
-INSERT INTO supplier (name, city, street, house, phone, email)
-VALUES
-*/
 
 CREATE TABLE employee (
  id serial PRIMARY KEY,
@@ -110,7 +105,7 @@ CREATE TABLE department_employee (
  id serial PRIMARY KEY,
  division_id integer REFERENCES shop (id),
  employee_id integer REFERENCES employee (id),
- date_start date(10) NOT NULL UNIQUE,
+ date_start date NOT NULL UNIQUE,
  date_finish varchar(10),
  working_day varchar(255) NOT NULL,
  weekend varchar(255) NOT NULL
