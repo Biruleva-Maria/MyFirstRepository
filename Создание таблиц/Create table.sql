@@ -7,7 +7,7 @@ CREATE TABLE shop (
  street varchar(100) NOT NULL,
  house varchar(20) NOT NULL,
  date_start date NOT NULL UNIQUE,
- date_finish varchar(10)
+ date_finish date
 );
 
 CREATE TABLE employee (
